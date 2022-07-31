@@ -21,10 +21,7 @@ shinyUI(dashboardPage(skin = "purple",
                 fluidPage(
                   h2("Hit the Ball Hard"),
                   br(),
-                  p("While baseball is by no means a simple game, it should be noted that unlike in many
-                    other sports, the baseball player's main objective can be described quite simply - hit the ball hard.
-                    Baseball is also unique in the fact that so many of its on-field events can be isolated which leads to 
-                    increased opporunities for (sometimes over-) analyization. ")
+                  p("While baseball is by no means a simple game, it should be noted that unlike in many other sports, the baseball player's main objective can be described quite simply - hit the ball hard. Baseball is also unique in the fact that so many of its on-field events can be isolated which leads to increased opportunities for (sometimes over the top) analysis. ")
                 )
               
               ),
