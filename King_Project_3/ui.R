@@ -27,7 +27,8 @@ shinyUI(dashboardPage(skin = "purple",
                   p("Below is a brief overview of the functionality of all the other pages of the app:"),
                   tags$ul(tags$li("Data Exploration: This page allows the user to get a sense for what’s included in the dataset and generate some customized visualizations for the variables"),
                           tags$li("Modeling: This page has three tabs. The first tab describes the various model types that we’re going to be using to make predictions and their general methodology. The second tab goes over fitting the models and allows for user input on various parameters. The third and final tab covers predictions by the models and has functionality for making a prediction from an observation input by the user."),
-                          tags$li("Data: This page allows for hands-on access to the dataset itself, the user can scroll through the data rows in a table, view a subset of the available columns and export the subset as a .csv."))
+                          tags$li("Data: This page allows for hands-on access to the dataset itself, the user can scroll through the data rows in a table, view a subset of the available columns and export the subset as a .csv.")),
+                  imageOutput("baseballPic")
                 )
               
               ),
@@ -40,7 +41,7 @@ shinyUI(dashboardPage(skin = "purple",
                             br(),
                             h4("Multiple Linear Regression"),
                             br(),
-                            p("Multiple linear regression is a modeling technique where "),
+                            p("Multiple linear regression is a modeling technique where a single variable is predicted using more than one factor. "),
                             br(),
                             h4("Regression Tree"),
                             br(),
@@ -49,7 +50,7 @@ shinyUI(dashboardPage(skin = "purple",
                             h4("Random Forest"),
                             br(),
                             p("Random forest is an ensamble modeling technique that "),
-                            withMathJax(sprintf('$$3^2+4^2=5^2$$')),
+                            withMathJax('$$3^2+4^2=5^2$$'),
                            
                           )
                         ),

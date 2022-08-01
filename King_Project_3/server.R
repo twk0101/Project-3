@@ -23,5 +23,9 @@ shinyServer(function(input, output) {
         write.csv(data_selected(), file, row.names = FALSE)
       }
     )
+    
+    output$baseballPic <- renderImage({
+      list(src = "./baseball.jpg")
+    })
 
 })
