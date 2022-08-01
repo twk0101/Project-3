@@ -26,6 +26,14 @@ shinyServer(function(input, output) {
     
     output$baseballPic <- renderImage({
       list(src = "./baseball.jpg")
+    }, deleteFile = FALSE)
+    
+    output$graphSummary <- renderPlot({
+      
+    })
+    
+    output$numSummary <- renderTable({
+      
     })
 
 })

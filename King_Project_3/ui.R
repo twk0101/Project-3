@@ -4,7 +4,7 @@ library(shinythemes)
 library(mathjaxr)
 
 shinyUI(dashboardPage(skin = "purple",
-  dashboardHeader(title = "Baseball Stuff"),
+  dashboardHeader(title = "StatCast Data"),
   
   dashboardSidebar(
     sidebarMenu(
@@ -37,7 +37,16 @@ shinyUI(dashboardPage(skin = "purple",
                   titlePanel("Explore and Summarize the Data"),
                   sidebarLayout(
                     sidebarPanel(
-                      selectInput("graphType", "Select a type of graphical summary to generate", choices = list("Histogram", "Bar Chart")),
+                      h4("Variable Definitions:"),
+                      tags$ul(
+                        tags$li("EV (Exit Velocity) - the average velocity at which the baseball leaves a player's bat in mph"),
+                        tags$li("maxEV (Maximum Exit Velocity) - the maximum exit velocity a player has generated in a season in mph"),
+                        tags$li("LA (Launch Angle) - the average angle at which the baseball leaves a player's bat in degrees"),
+                        tags$li("Barrel Percent - the percentage of batted balls on which a player generates what's called a 'barrel' which is considered to be an optimal batted ball event. Barrels are defined as batted-ball events whose comparable hit types have led to a minimum .500 batting average and 1.500 slugging percentage."),
+                        tags$li("Hard Hit Percent - the percentage of batted balls on which a player generates an exit velocity of 95 mph or higher"),
+                        tags$li("wOBA (Weighted on Base Average) - a composite measure of player success based on hit types and league averages.")
+                      ),
+                      selectInput("graphType", "Select a type of graphical summary to generate", choices = list("Histogram", "Density Chart", "QQ Plot")),
                       br(),
                       selectInput("graphVariable", "Select a variable to show in the graphical summary", choices = list("EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent","wOBA")),
                       br(),
@@ -47,7 +56,8 @@ shinyUI(dashboardPage(skin = "purple",
                       br(),
                       submitButton("Generate Summaries")
                     ),
-                    mainPanel(
+                    mainPanel(plotOutput("graphSummary"),
+                              tableOutput("numSummary")
                       
                     )
                   )
