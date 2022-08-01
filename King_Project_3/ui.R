@@ -32,7 +32,27 @@ shinyUI(dashboardPage(skin = "purple",
                 )
               
               ),
-      tabItem(tabName = "exploration"),
+      tabItem(tabName = "exploration",
+                fluidPage(
+                  titlePanel("Explore and Summarize the Data"),
+                  sidebarLayout(
+                    sidebarPanel(
+                      selectInput("graphType", "Select a type of graphical summary to generate", choices = list("Histogram", "Bar Chart")),
+                      br(),
+                      selectInput("graphVariable", "Select a variable to show in the graphical summary", choices = list("EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent","wOBA")),
+                      br(),
+                      selectInput("numType", "Select a type of numerical summary to generate", choices = list("Frequency Table", "Stats")),
+                      br(),
+                      selectInput("numVariable", "Select a variable to show in the numberical summary", choices = list("EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent","wOBA")),
+                      br(),
+                      submitButton("Generate Summaries")
+                    ),
+                    mainPanel(
+                      
+                    )
+                  )
+                )
+              ),
       tabItem(tabName = "modeling",
               tabsetPanel(
                 tabPanel("Modeling Info",
@@ -60,7 +80,7 @@ shinyUI(dashboardPage(skin = "purple",
               ),
       tabItem(tabName = "data",
                 fluidPage(
-                  titlePanel("Explore the Data Set"),
+                  titlePanel("View the Data Set"),
                   sidebarLayout(
                     sidebarPanel(
                       selectInput("columns","Select Columns to View", choices=list("Season", "Name", "EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent","wOBA"),
