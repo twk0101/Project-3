@@ -10,6 +10,6 @@ Code for installing packages:
 
 `install.packages("shinydashboard","shinythemes","mathjaxr","caret","DT","tidyverse")`
 
-Code for running the app via GitHub (note that I've had to run this command twice in order to get the datatable to render on the final tab, not sure if that's a feature or a bug, but if it doesn't show up on the first try for you, I'd greatly appreciate you trying it again!)
+Code for running the app via GitHub (I've had to run this command twice in order to get the datatable to render on the final tab, not sure if that's a feature or a bug, but if it doesn't show up on the first try for you, I'd greatly appreciate you trying it again!)
 
 `shiny::runGitHub("Project-3", "twk0101", subdir = "/King_Project_3/")`
