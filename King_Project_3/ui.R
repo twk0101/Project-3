@@ -10,7 +10,7 @@ shinyUI(dashboardPage(skin = "purple",
     sidebarMenu(
       menuItem("About", tabName = "about", icon = icon("globe")),
       menuItem("Data Exploration", tabName = "exploration", icon = icon("th")),
-      menuItem("Modeling", tabName = "modeling", icon = icon("dashboard")),
+      menuItem("Modeling", tabName = "modeling", icon = icon("arrow-up-right-dots")),
       menuItem("Data", tabName = "data", icon = icon("dashboard"))
     )
   ),
@@ -86,15 +86,31 @@ shinyUI(dashboardPage(skin = "purple",
                         ),
                 tabPanel("Model Fitting",
                           fluidPage(
-                            titlePanel("Select Parameters for Model Fitting"),
+                            titlePanel("Customize Parameters for Model Fitting"),
                             sidebarLayout(
                               sidebarPanel(
+                                h4("Note - models have already been run with default parameters, enter values to re-run"),
                                 numericInput("testP", "Select the proportion of the data to be used for the test set", value = .2, min = .05, max = .95, step = .05),
                                 selectInput("modelvars","Select variables to use in the models", choices=list("EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent"), multiple = TRUE, selected = list("EV", "LA")),
                                 numericInput("cv", "Select the number of folds used in cross validation", value = 5, min = 2, max = 10, step = 1),
-                                selectInput("prepros", "Select pre-processing options", choices = list("center", "scale"), multiple = TRUE, selected = list("center", "scale"))
+                                selectInput("prepros", "Select pre-processing options", choices = list("center", "scale"), multiple = TRUE, selected = list("center", "scale")),
+                                submitButton("Re-Run Models")
                               ),
                               mainPanel(
+                                verbatimTextOutput("MLR_model"),
+                                verbatimTextOutput("tree_model"),
+                                verbatimTextOutput("forest_model"),
+                                br(),
+                                h4("Performance on test set: "),
+                                br(),
+                                strong("MLR"),
+                                verbatimTextOutput("performance_mlr"),
+                                br(),
+                                strong("Regression Tree"),
+                                verbatimTextOutput("performance_tree"),
+                                br(),
+                                strong("Random Forest"),
+                                verbatimTextOutput("performance_forest")
                                 
                               )
                             )

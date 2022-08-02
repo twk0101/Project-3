@@ -89,10 +89,73 @@ shinyServer(function(input, output) {
       
       train <- dataSubset[train_index, ]
       test <- dataSubset[-train_index, ]
+      
+      list(train = train, test = test)
     })
     
-    output$test_set <- renderPrint({
-      train_test()
+    #Reactive context for training the mlr model
+    train_mlr <- reactive({
+      MLR <- train(wOBA~., data = train_test()$train,
+                   method = "lm",
+                   preProcess = input$prepros,
+                   trControl = trainControl(method = "cv", number = input$cv))
+      MLR
+    })
+    
+    #Reactive context for training the regression tree model
+    train_tree <- reactive({
+      tree <- train(wOBA~., data = train_test()$train,
+                    method = "rpart",
+                    preProcess = input$prepros,
+                    trControl = trainControl(method = "cv", number = input$cv))
+      tree
+    })
+    
+    #Reactive context for training the random forest model
+    train_forest <- reactive({
+      forest <- train(wOBA~., data = train_test()$train,
+                      method = "rf",
+                      preProcess = input$prepros,
+                      trControl = trainControl(method = "cv", number = input$cv))
+      forest
+    })
+    
+    #Output the model printouts with stats on training data
+    output$MLR_model <- renderPrint({
+      train_mlr()
+    })
+    
+    output$tree_model <- renderPrint({
+      train_tree()
+    })
+    
+    output$forest_model <- renderPrint({
+      train_forest()
     })
 
+    #Reactive context for computing performance on test data
+    test_perf <- reactive({
+      pred_mlr <- predict(train_mlr(), newdata = train_test()$test)
+      pred_tree <-  predict(train_tree(), newdata = train_test()$test)
+      pred_forest <-  predict(train_forest(), newdata = train_test()$test)
+      
+      perf_mlr <- postResample(pred_mlr, obs = train_test()$test$wOBA)
+      perf_tree <- postResample(pred_tree, obs = train_test()$test$wOBA)
+      perf_forest <- postResample(pred_forest, obs = train_test()$test$wOBA)
+      
+      list(MLR = perf_mlr, Tree = perf_tree, Forest = perf_forest)
+    })
+    
+    output$performance_mlr <- renderPrint({
+      test_perf()$MLR
+    })
+    
+    output$performance_tree <- renderPrint({
+      test_perf()$Tree
+    })
+    
+    output$performance_forest <- renderPrint({
+      test_perf()$MForest
+    })
+    
 })
