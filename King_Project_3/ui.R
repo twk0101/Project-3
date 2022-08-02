@@ -71,20 +71,37 @@ shinyUI(dashboardPage(skin = "purple",
                             br(),
                             h4("Multiple Linear Regression"),
                             br(),
-                            p("Multiple linear regression is a modeling technique where a single variable is predicted using more than one factor. "),
+                            p("Multiple linear regression is a modeling technique where a single variable is predicted using more than one factor. Multiple linear regression has several benefits, including being able to compare the relative influence of several factors as predictors and being able to tune the model very granularly. However, multiple linear regression also runs the risk of generating incomplete conclusions on large data sets and can make spotting interactions between variables difficult"),
+                            p("Multiple linear regression equations follow the form below:"),
+                            withMathJax('$$\\hat{Y}=b_{0}+b_{1}X_{1}+b_{2}X_{2}+...+b_{n}X_{n}$$'),
                             br(),
                             h4("Regression Tree"),
                             br(),
-                            p("A regression tree is a tree that does "),
+                            p("A regression tree is a tree model that is built through a series of recursive partitions on the different factors that continually divide the data and eventually return a single numerical prediction (as opposed to a classification in decision trees.) Regression trees are good at handeling interactions between factors because they handle their splits independently but they're also sensitive to outliers in the data."),
                             br(),
                             h4("Random Forest"),
                             br(),
-                            p("Random forest is an ensamble modeling technique that "),
-                            withMathJax('$$3^2+4^2=5^2$$'),
-                           
+                            p("Random forest is an ensamble modeling technique that involves training many smaller decision trees on the data and then taking a consensus amongst the individual trees to arrive at an overall conclusion. This method irons out some of the difficulties with single decision trees by (hopefully) ensuring that even if a few trees make mistakes the overall consensus of the model is still correct. However, since they are an ensamble method, random forest models are more computationally expensive than the other two types.")
                           )
                         ),
-                tabPanel("Model Fitting", "content"),
+                tabPanel("Model Fitting",
+                          fluidPage(
+                            titlePanel("Select Parameters for Model Fitting"),
+                            sidebarLayout(
+                              sidebarPanel(
+                                numericInput("testP", "Select the proportion of the data to be used for the test set", value = .2, min = .05, max = .95, step = .05),
+                                selectInput("modelvars","Select variables to use in the models", choices=list("EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent"), multiple = TRUE, selected = list("EV", "LA")),
+                                numericInput("cv", "Select the number of folds used in cross validation", value = 5, min = 2, max = 10, step = 1),
+                                selectInput("prepros", "Select pre-processing options", choices = list("center", "scale"), multiple = TRUE, selected = list("center", "scale"))
+                              ),
+                              mainPanel(
+                                
+                              )
+                            )
+                          )
+                         
+                         
+                        ),
                 tabPanel("Prediction","content")
               )
               ),
@@ -93,8 +110,7 @@ shinyUI(dashboardPage(skin = "purple",
                   titlePanel("View the Data Set"),
                   sidebarLayout(
                     sidebarPanel(
-                      selectInput("columns","Select Columns to View", choices=list("Season", "Name", "EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent","wOBA"),
-                                   multiple = TRUE, selected = list("Season", "Name")),
+                      selectInput("columns","Select Columns to View", choices=list("Season", "Name", "EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent","wOBA"), multiple = TRUE, selected = list("Season", "Name")),
                       submitButton("Generate Table"),
                       br(),
                       p("Download a .csv with the columns you've selected:"),

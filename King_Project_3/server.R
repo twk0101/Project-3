@@ -8,11 +8,13 @@ shinyServer(function(input, output) {
     #Read in data
     data_raw <- read.csv("baseball_data.csv")
   
+    #Use reactive context to subset the data based on selection
     data_selected <- reactive({
       cols <- input$columns
       data_selected <- data_raw[,cols]
     })
     
+    #Generate graphical plot in a reactive context from user input
     graph_plot <- reactive({
       plot_type <- input$graphType
       variable <- input$graphVariable
@@ -28,6 +30,7 @@ shinyServer(function(input, output) {
       }
     })
     
+    #Generate the numerical summary in a reactive context from user input
     num_summary <- reactive({
       summary_type <- input$numType
       variable_num <- input$numVariable
@@ -45,10 +48,12 @@ shinyServer(function(input, output) {
       
     })
     
+    #This is the output on our final tab where the data can be viewed and exported
     output$dataTable <- DT::renderDataTable({
       data_selected()
     })
     
+    #This snippet handles the downloadable aspect of the data
     output$downloadData <- downloadHandler(
       filename = "baseball.csv",
       content = function(file) {
@@ -56,16 +61,38 @@ shinyServer(function(input, output) {
       }
     )
     
+    #Renders our high quality baseball image for the front page of the app (and doesn't delete it afterwards)
     output$baseballPic <- renderImage({
       list(src = "./baseball.jpg")
     }, deleteFile = FALSE)
     
+    #Renders the graphical summary plot using the reactive context above
     output$graphSummary <- renderPlot({
       graph_plot()
     })
     
+    #Renders the numerical summary using the reactive context above
     output$numSummary <- renderPrint({
       num_summary()
+    })
+    
+    
+    
+    #Reactive context for splitting the training and testing data based on the user-inputted proportion
+    train_test <-reactive({
+      set.seed(1024)
+      model_cols <- input$modelvars
+      dataSubset <- data_raw[,model_cols]
+      dataSubset$wOBA <- data_raw$wOBA
+      
+      train_index <- createDataPartition(dataSubset$wOBA, p = (1 - input$testP), list = FALSE)
+      
+      train <- dataSubset[train_index, ]
+      test <- dataSubset[-train_index, ]
+    })
+    
+    output$test_set <- renderPrint({
+      train_test()
     })
 
 })
