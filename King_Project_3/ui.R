@@ -50,14 +50,14 @@ shinyUI(dashboardPage(skin = "purple",
                       br(),
                       selectInput("graphVariable", "Select a variable to show in the graphical summary", choices = list("EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent","wOBA")),
                       br(),
-                      selectInput("numType", "Select a type of numerical summary to generate", choices = list("Frequency Table", "Stats")),
+                      selectInput("numType", "Select a type of numerical summary to generate", choices = list("Frequency Table", "Summary Statistics")),
                       br(),
-                      selectInput("numVariable", "Select a variable to show in the numberical summary", choices = list("EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent","wOBA")),
+                      selectInput("numVariable", "Select a variable to show in the numerical summary", choices = list("EV", "maxEV", "LA", "BarrelPercent", "HardHitPercent","wOBA")),
                       br(),
                       submitButton("Generate Summaries")
                     ),
                     mainPanel(plotOutput("graphSummary"),
-                              tableOutput("numSummary")
+                              verbatimTextOutput("numSummary")
                       
                     )
                   )
