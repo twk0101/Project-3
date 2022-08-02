@@ -10,8 +10,8 @@ shinyUI(dashboardPage(skin = "purple",
     sidebarMenu(
       menuItem("About", tabName = "about", icon = icon("globe")),
       menuItem("Data Exploration", tabName = "exploration", icon = icon("th")),
-      menuItem("Modeling", tabName = "modeling", icon = icon("arrow-up-right-dots")),
-      menuItem("Data", tabName = "data", icon = icon("dashboard"))
+      menuItem("Modeling", tabName = "modeling", icon = icon("poll")),
+      menuItem("Data", tabName = "data", icon = icon("database"))
     )
   ),
   
@@ -117,8 +117,7 @@ shinyUI(dashboardPage(skin = "purple",
                           )
                          
                          
-                        ),
-                tabPanel("Prediction","content")
+                        )
               )
               ),
       tabItem(tabName = "data",
